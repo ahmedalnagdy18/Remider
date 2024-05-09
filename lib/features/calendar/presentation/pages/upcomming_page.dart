@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reminder_app/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
 
@@ -29,6 +30,7 @@ class _UpcommingPageState extends State<UpcommingPage> {
     super.initState();
   }
 
+  DateTime currentTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +46,8 @@ class _UpcommingPageState extends State<UpcommingPage> {
                     const SizedBox(height: 10),
                 itemCount: data.length,
                 itemBuilder: (context, index) {
+                  DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
+                  String formattedDate = dateFormat.format(currentTime);
                   return TaskBody(
                     yesOnPressed: () async {
                       await FirebaseFirestore.instance
@@ -57,6 +61,7 @@ class _UpcommingPageState extends State<UpcommingPage> {
                     descreption: '${data[index]['descreption']}',
                     title: '${data[index]['title']}',
                     taskType: '${data[index]['taskType']}',
+                    date: formattedDate,
                   );
                 },
               ));

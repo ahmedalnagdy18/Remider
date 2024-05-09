@@ -7,10 +7,11 @@ class TaskBody extends StatelessWidget {
       {super.key,
       required this.title,
       required this.descreption,
-      required this.taskType, this.yesOnPressed});
+      required this.taskType, this.yesOnPressed, required this.date});
   final String title;
   final String descreption;
   final String taskType;
+  final String date;
   final Function()? yesOnPressed;
   @override
   Widget build(BuildContext context) {
@@ -78,9 +79,9 @@ class TaskBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    '2 May 2024, 02:33 PM',
-                    style: TextStyle(
+                   Text(
+                    date,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,

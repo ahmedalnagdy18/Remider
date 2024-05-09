@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
+import 'package:intl/intl.dart';
 
 class AlltasksPage extends StatefulWidget {
   const AlltasksPage({super.key});
@@ -19,6 +20,8 @@ class _AlltasksPageState extends State<AlltasksPage> {
   void initState() {
     super.initState();
   }
+
+  DateTime currentTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,9 @@ class _AlltasksPageState extends State<AlltasksPage> {
                           const SizedBox(height: 10),
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
+                        DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
+                        String formattedDate = dateFormat.format(currentTime);
+
                         return TaskBody(
                           yesOnPressed: () async {
                             await FirebaseFirestore.instance
@@ -58,6 +64,7 @@ class _AlltasksPageState extends State<AlltasksPage> {
                               '${snapshot.data!.docs[index]['descreption']}',
                           title: '${snapshot.data!.docs[index]['title']}',
                           taskType: '${snapshot.data!.docs[index]['taskType']}',
+                          date: formattedDate,
                         );
                       },
                     ));
