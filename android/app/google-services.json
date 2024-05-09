@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "693520563653",
+    "project_id": "reminder-app-ff79d",
+    "storage_bucket": "reminder-app-ff79d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693520563653:android:857a967e3169921e3e9fac",
+        "android_client_info": {
+          "package_name": "com.example.reminder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqRQ71DYw5BrvwhjgJR8lK6rJOqc5FNn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
