@@ -2,9 +2,13 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'package:reminder_app/features/calendar/presentation/pages/calendar_page.dart';
+import 'package:reminder_app/injection.dart';
 
 void main() async {
+  setupinjection();
+
   WidgetsFlutterBinding.ensureInitialized();
   Platform.isAndroid
       ? await Firebase.initializeApp(
@@ -25,8 +29,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: CalendarPage(),
-    );
+        debugShowCheckedModeBanner: false, home: CalendarPage());
   }
 }

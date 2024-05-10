@@ -27,7 +27,6 @@ class _AddtaskPageState extends State<AddtaskPage> {
   CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
 
   Future<void> addTask() {
-    // Call the user's CollectionReference to add a new user
     return tasks
         .add({
           'title': title.text, 

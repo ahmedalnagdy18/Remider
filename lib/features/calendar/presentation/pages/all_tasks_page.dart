@@ -1,7 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
+import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
+import 'package:reminder_app/features/calendar/domain/usecases/get_all_tasks_repository.dart.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/all_task_cubit/task_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/all_task_cubit/task_states.dart';
+import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
+import 'package:reminder_app/injection.dart';
 
 class AlltasksPage extends StatefulWidget {
   const AlltasksPage({super.key});
@@ -11,63 +17,66 @@ class AlltasksPage extends StatefulWidget {
 }
 
 class _AlltasksPageState extends State<AlltasksPage> {
-  List<QueryDocumentSnapshot> data = [];
-
-  final Stream<QuerySnapshot> _taskStream =
-      FirebaseFirestore.instance.collection('tasks').snapshots();
-
   @override
   void initState() {
     super.initState();
   }
 
+  List<TaskEntity> data = [];
   DateTime currentTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _taskStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong'));
+    return BlocProvider<AllTaskCubit>(
+      create: (context) => AllTaskCubit(
+          getAllTasks: GetAllTasksUsecase(repository: sl.get<TaskRepoImp>()))
+        ..getAllTask(),
+      child: BlocConsumer<AllTaskCubit, AllTaskStates>(
+        listener: (context, state) {
+          if (state is SucAllTasks) {
+            data = state.tasks;
           }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: Text("Loading"));
+          if (state is Sucdel) {
+            Navigator.of(context).pop();
           }
-
+        },
+        builder: (context, state) {
           return Scaffold(
               backgroundColor: Colors.white,
-              body: snapshot.data!.docs.isEmpty
+              body: state is FailAllTasks
                   ? Container(
                       alignment: Alignment.topCenter,
                       child: const Text("There is no tasks"))
-                  : ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10),
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
-                        String formattedDate = dateFormat.format(currentTime);
+                  : state is LoadingAllTasks
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 10),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            DateFormat dateFormat =
+                                DateFormat('d MMMM, hh:mm a');
+                            String formattedDate =
+                                dateFormat.format(currentTime);
 
-                        return TaskBody(
-                          yesOnPressed: () async {
-                            await FirebaseFirestore.instance
-                                .collection("tasks")
-                                .doc(snapshot.data!.docs[index].id)
-                                .delete();
-                            Navigator.of(context).pop();
+                            return TaskBody(
+                              yesOnPressed: () {
+                                BlocProvider.of<AllTaskCubit>(context)
+                                    .deltask(data[index].id);
+                              },
+                              descreption: data[index].descreption,
+                              title: data[index].title,
+                              taskType: data[index].taskType,
+                              date: formattedDate,
+                            );
                           },
-                          descreption:
-                              '${snapshot.data!.docs[index]['descreption']}',
-                          title: '${snapshot.data!.docs[index]['title']}',
-                          taskType: '${snapshot.data!.docs[index]['taskType']}',
-                          date: formattedDate,
-                        );
-                      },
-                    ));
-        });
+                        ));
+        },
+      ),
+    );
   }
 }
