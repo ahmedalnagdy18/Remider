@@ -6,14 +6,14 @@ class IntialUrgentTasks extends UrgentTaskStates {}
 
 class LoadingUrgentTasks extends UrgentTaskStates {}
 
-class SucsessUrgentTasks extends UrgentTaskStates {
+class SucUrgentTasks extends UrgentTaskStates {
   List<TaskEntity> tasks;
 
-  SucsessUrgentTasks({required this.tasks});
+  SucUrgentTasks({required this.tasks});
 }
 
 class FailUrgentTasks extends UrgentTaskStates {}
 
 class Faildel extends UrgentTaskStates {}
 
-class Sucsessdel extends UrgentTaskStates {}
+class Sucdel extends UrgentTaskStates {}

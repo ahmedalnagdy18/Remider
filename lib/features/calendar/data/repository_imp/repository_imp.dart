@@ -47,4 +47,17 @@ class TaskRepoImp extends TasksRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> addTask(
+      {required String title,
+      required String descreption,
+      required String taskType}) async {
+    try {
+      dataSource.addTask(
+          title: title, descreption: descreption, taskType: taskType);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

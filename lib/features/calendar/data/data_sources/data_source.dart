@@ -13,4 +13,13 @@ class FirebaseDataSource {
     Stream<QuerySnapshot> taskstype = tasks.snapshots();
     return taskstype;
   }
+
+  Future<void> addTask(
+      {required String title,
+      required String descreption,
+      required String taskType}) async {
+    CollectionReference tasks = FirebaseFirestore.instance.collection("tasks");
+    tasks.add(
+        {'title': title, 'descreption': descreption, 'taskType': taskType});
+  }
 }

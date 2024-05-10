@@ -6,14 +6,14 @@ class IntialCompleteTasks extends CompleteTaskStates {}
 
 class LoadingCompleteTasks extends CompleteTaskStates {}
 
-class SucsessCompleteTasks extends CompleteTaskStates {
+class SucCompleteTasks extends CompleteTaskStates {
   List<TaskEntity> tasks;
 
-  SucsessCompleteTasks({required this.tasks});
+  SucCompleteTasks({required this.tasks});
 }
 
 class FailCompleteTasks extends CompleteTaskStates {}
 
 class Faildel extends CompleteTaskStates {}
 
-class Sucsessdel extends CompleteTaskStates {}
+class Sucdel extends CompleteTaskStates {}

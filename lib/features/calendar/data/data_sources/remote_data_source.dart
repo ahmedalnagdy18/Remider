@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reminder_app/features/calendar/data/api_services.dart/data_source.dart';
+
+import 'package:reminder_app/features/calendar/data/data_sources/data_source.dart';
 
 abstract class RemoteDataSource {
   Stream<QuerySnapshot> getAllTasks();
   Stream<QuerySnapshot> getUrgentTasks();
   Stream<QuerySnapshot> getCompletedTasks();
   Stream<QuerySnapshot> getUpcommingTasks();
+  Future<void> addTask(
+      {required String title,
+      required String descreption,
+      required String taskType});
 }
 
 class CalendarRemoteDataSource extends RemoteDataSource {
@@ -38,5 +43,14 @@ class CalendarRemoteDataSource extends RemoteDataSource {
     Stream<QuerySnapshot> tasks = dataSource.getData(type: 'Urgent');
 
     return tasks;
+  }
+
+  @override
+  Future<void> addTask(
+      {required String title,
+      required String descreption,
+      required String taskType}) async {
+    dataSource.addTask(
+        title: title, descreption: descreption, taskType: taskType);
   }
 }

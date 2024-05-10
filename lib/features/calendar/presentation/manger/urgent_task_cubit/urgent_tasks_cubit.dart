@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reminder_app/features/calendar/data/models/model.dart';
 import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_urgent_tasks_repository.dart';
-import 'package:reminder_app/features/calendar/presentation/cubits/urgent_task_cubit/urgent_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/manger/urgent_task_cubit/urgent_tasks_state.dart';
+import 'package:reminder_app/features/calendar/data/api_services.dart/totask.dart';
 
 class UrgentTasksCubit extends Cubit<UrgentTaskStates> {
   UrgentTasksCubit({required this.getUrgentTasksUsecase})
@@ -16,11 +16,9 @@ class UrgentTasksCubit extends Cubit<UrgentTaskStates> {
       emit(LoadingUrgentTasks());
       var data = await getUrgentTasksUsecase.call();
       data.listen((event) {
-        for (var element in event.docs) {
-          tasks.add(Task.fromSnapshot(element));
-        }
+        tasks = totask(event.docs);
 
-        emit(SucsessUrgentTasks(tasks: tasks));
+        emit(SucUrgentTasks(tasks: tasks));
       });
     } on Exception {
       emit(FailUrgentTasks());
@@ -32,8 +30,7 @@ class UrgentTasksCubit extends Cubit<UrgentTaskStates> {
       emit(LoadingUrgentTasks());
       await FirebaseFirestore.instance.collection("tasks").doc(id).delete();
 
-      emit(Sucsessdel());
-      getAllTask();
+      emit(Sucdel());
     } on Exception {
       emit(Faildel());
     }

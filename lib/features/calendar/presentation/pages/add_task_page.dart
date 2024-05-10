@@ -1,18 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
+import 'package:reminder_app/features/calendar/domain/usecases/add_task_usecase.dart';
+import 'package:reminder_app/features/calendar/presentation/manger/add_cubit/add_cubit_cubit.dart';
 import 'package:reminder_app/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/floating_button.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/textfield_widget.dart';
+import 'package:reminder_app/injection.dart';
 
-
-class AddtaskPage extends StatefulWidget {
-  const AddtaskPage({super.key});
+class AddtaskPge extends StatelessWidget {
+  const AddtaskPge({super.key});
 
   @override
-  State<AddtaskPage> createState() => _AddtaskPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<AddCubit>(
+        create: (context) => AddCubit(
+            addTasksUsecase:
+                AddTasksUsecase(repository: sl.get<TaskRepoImp>())),
+        child: const AddtaskScreen());
+  }
 }
 
-class _AddtaskPageState extends State<AddtaskPage> {
+class AddtaskScreen extends StatefulWidget {
+  const AddtaskScreen({super.key});
+
+  @override
+  State<AddtaskScreen> createState() => _AddtaskScreenState();
+}
+
+class _AddtaskScreenState extends State<AddtaskScreen> {
   var items = [
     'Upcoming',
     'Complete',
@@ -26,79 +43,80 @@ class _AddtaskPageState extends State<AddtaskPage> {
 
   CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
 
-  Future<void> addTask() {
-    return tasks
-        .add({
-          'title': title.text, 
-          'descreption': descreption.text, 
-          'taskType': taskType.text 
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30, right: 10),
-        child: FloatingWidget(
-          onPressed: () {
-            addTask();
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const CalendarPage(),
-            ));
-          },
-          icon: Icons.save,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Add Task',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+    return BlocConsumer<AddCubit, AddCubitState>(
+      listener: (context, state) {
+        if (state is AddCubitSucsess) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const CalendarPage(),
+          ));
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 30, right: 10),
+            child: FloatingWidget(
+              onPressed: () {
+                BlocProvider.of<AddCubit>(context)
+                    .addTask(title.text, descreption.text, taskType.text);
+              },
+              icon: Icons.save,
             ),
-          )),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          children: [
-            TextfieldWidget(hintText: "Enter task title", controller: title),
-            const SizedBox(height: 20),
-            TextfieldWidget(
-                hintText: "Enter task descreption", controller: descreption),
-            const SizedBox(height: 20),
-            TextField(
-              controller: taskType,
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: 'Select task type',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'Add Task',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
-                suffixIcon: PopupMenuButton<String>(
-                  icon: const Icon(Icons.arrow_drop_down),
-                  onSelected: (String value) {
-                    taskType.text = value;
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return items.map<PopupMenuItem<String>>((String value) {
-                      return PopupMenuItem(value: value, child: Text(value));
-                    }).toList();
-                  },
+              )),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              children: [
+                TextfieldWidget(
+                    hintText: "Enter task title", controller: title),
+                const SizedBox(height: 20),
+                TextfieldWidget(
+                    hintText: "Enter task descreption",
+                    controller: descreption),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: taskType,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: 'Select task type',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    suffixIcon: PopupMenuButton<String>(
+                      icon: const Icon(Icons.arrow_drop_down),
+                      onSelected: (String value) {
+                        taskType.text = value;
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return items.map<PopupMenuItem<String>>((String value) {
+                          return PopupMenuItem(
+                              value: value, child: Text(value));
+                        }).toList();
+                      },
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

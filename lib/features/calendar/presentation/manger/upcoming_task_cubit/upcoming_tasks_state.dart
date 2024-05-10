@@ -6,14 +6,14 @@ class IntialUpComingTasks extends UpComingTaskStates {}
 
 class LoadingUpComingTasks extends UpComingTaskStates {}
 
-class SucsessUpComingTasks extends UpComingTaskStates {
+class SucUpComingTasks extends UpComingTaskStates {
   List<TaskEntity> tasks;
 
-  SucsessUpComingTasks({required this.tasks});
+  SucUpComingTasks({required this.tasks});
 }
 
 class FailUpComingTasks extends UpComingTaskStates {}
 
 class Faildel extends UpComingTaskStates {}
 
-class Sucsessdel extends UpComingTaskStates {}
+class Sucdel extends UpComingTaskStates {}
