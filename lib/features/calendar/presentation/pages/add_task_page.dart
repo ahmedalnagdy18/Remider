@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
@@ -41,7 +40,6 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
   final TextEditingController descreption = TextEditingController();
   final TextEditingController taskType = TextEditingController();
 
-  CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
 
   @override
   Widget build(BuildContext context) {
