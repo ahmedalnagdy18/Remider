@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/add_task_usecase.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/add_cubit/add_cubit_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/add_cubit/add_cubit_cubit.dart';
 import 'package:reminder_app/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/floating_button.dart';
 import 'package:reminder_app/features/calendar/presentation/widgets/textfield_widget.dart';
@@ -59,8 +59,22 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
             padding: const EdgeInsets.only(bottom: 30, right: 10),
             child: FloatingWidget(
               onPressed: () {
-                BlocProvider.of<AddCubit>(context)
+                if (title.text.isEmpty ||
+                    descreption.text.isEmpty ||
+                    taskType.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: const Text('Error ! you must write all field'),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      textColor: Colors.white,
+                      onPressed: () {},
+                    ),
+                  ));
+                }else {
+                  BlocProvider.of<AddCubit>(context)
                     .addTask(title.text, descreption.text, taskType.text);
+                }
               },
               icon: Icons.save,
             ),

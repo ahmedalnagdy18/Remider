@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/get_all_tasks_repository.dart.dart';
 
-import 'package:reminder_app/features/calendar/presentation/manger/all_task_cubit/task_states.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/all_task_cubit/task_states.dart';
 import 'package:reminder_app/features/calendar/data/api_services.dart/totask.dart';
 
 class AllTaskCubit extends Cubit<AllTaskStates> {

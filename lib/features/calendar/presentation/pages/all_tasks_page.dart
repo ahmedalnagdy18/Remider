@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_all_tasks_repository.dart.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/all_task_cubit/task_cubit.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/all_task_cubit/task_states.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/all_task_cubit/task_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/all_task_cubit/task_states.dart';
 
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
 import 'package:reminder_app/injection.dart';

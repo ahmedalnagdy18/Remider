@@ -6,8 +6,8 @@ import 'package:reminder_app/features/calendar/data/repository_imp/repository_im
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_urgent_tasks_repository.dart';
 
-import 'package:reminder_app/features/calendar/presentation/manger/urgent_task_cubit/urgent_tasks_cubit.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/urgent_task_cubit/urgent_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/urgent_task_cubit/urgent_tasks_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/urgent_task_cubit/urgent_tasks_state.dart';
 
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
 import 'package:reminder_app/injection.dart';

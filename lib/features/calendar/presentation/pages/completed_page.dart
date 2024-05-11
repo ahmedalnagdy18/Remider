@@ -6,8 +6,8 @@ import 'package:reminder_app/features/calendar/data/repository_imp/repository_im
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_%20completed_tasks_repository.dart';
 
-import 'package:reminder_app/features/calendar/presentation/manger/complete_task_cubit/complete_tasks_cubit.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/complete_task_cubit/complete_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/complete_task_cubit/complete_tasks_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/complete_task_cubit/complete_tasks_state.dart';
 
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
 import 'package:reminder_app/injection.dart';

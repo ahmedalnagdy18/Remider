@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_urgent_tasks_repository.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/urgent_task_cubit/urgent_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/urgent_task_cubit/urgent_tasks_state.dart';
 import 'package:reminder_app/features/calendar/data/api_services.dart/totask.dart';
 
 class UrgentTasksCubit extends Cubit<UrgentTaskStates> {

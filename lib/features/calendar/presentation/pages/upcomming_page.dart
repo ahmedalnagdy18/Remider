@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/get_upcoming_tasks_repository.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/upcoming_task_cubit/upcoming_tasks_cubit.dart';
-import 'package:reminder_app/features/calendar/presentation/manger/upcoming_task_cubit/upcoming_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/upcoming_task_cubit/upcoming_tasks_cubit.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/upcoming_task_cubit/upcoming_tasks_state.dart';
 
 import 'package:reminder_app/features/calendar/presentation/widgets/tasks_body.dart';
 import 'package:reminder_app/injection.dart';

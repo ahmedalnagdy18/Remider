@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/get_%20completed_tasks_repository.dart';
 
-import 'package:reminder_app/features/calendar/presentation/manger/complete_task_cubit/complete_tasks_state.dart';
+import 'package:reminder_app/features/calendar/presentation/cubits/complete_task_cubit/complete_tasks_state.dart';
 import 'package:reminder_app/features/calendar/data/api_services.dart/totask.dart';
 
 class CompleteTasksCubit extends Cubit<CompleteTaskStates> {
