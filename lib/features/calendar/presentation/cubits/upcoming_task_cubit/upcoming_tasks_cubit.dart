@@ -4,7 +4,7 @@ import 'package:reminder_app/features/calendar/domain/entities/entity.dart';
 
 import 'package:reminder_app/features/calendar/domain/usecases/get_upcoming_tasks_repository.dart';
 import 'package:reminder_app/features/calendar/presentation/cubits/upcoming_task_cubit/upcoming_tasks_state.dart';
-import 'package:reminder_app/features/calendar/data/api_services.dart/totask.dart';
+import 'package:reminder_app/features/calendar/domain/services.dart/totask.dart';
 
 class UpComingTasksCubit extends Cubit<UpComingTaskStates> {
   UpComingTasksCubit({required this.getUpComingTasksUsecase})
