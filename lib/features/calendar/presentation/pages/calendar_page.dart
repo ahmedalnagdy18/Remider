@@ -75,9 +75,11 @@ class _CalendarPageState extends State<CalendarPage> {
                               ? Colors.red
                               : Colors.transparent,
                           onPressed: () {
-                            _controller.animateToPage(index,
-                                duration: const Duration(seconds: 1),
-                                curve: Curves.ease);
+                            _controller.jumpToPage(
+                              index,
+                            );
+                            //   duration: const Duration(seconds: 1),
+                            //   curve: Curves.ease);
                             setState(() {
                               _currint = index;
                             });
