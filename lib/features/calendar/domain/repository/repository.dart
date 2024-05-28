@@ -5,8 +5,10 @@ abstract class TasksRepository {
   Stream<QuerySnapshot> getUrgentTasks();
   Stream<QuerySnapshot> getCompletedTasks();
   Stream<QuerySnapshot> getUpcommingTasks();
-  Future<void> addTask(
-      {required String title,
-      required String descreption,
-      required String taskType});
+  Future<void> addTask({
+    required String title,
+    required String descreption,
+    required String taskType,
+    required String time,
+  });
 }

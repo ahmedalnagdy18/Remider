@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/add_task_usecase.dart';
 import 'package:reminder_app/features/calendar/presentation/cubits/add_cubit/add_cubit_cubit.dart';
@@ -40,6 +41,7 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
   final TextEditingController descreption = TextEditingController();
   final TextEditingController taskType = TextEditingController();
 
+  DateTime currentTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,9 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
         }
       },
       builder: (context, state) {
+        DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
+        String formattedDate = dateFormat.format(currentTime);
+
         return Scaffold(
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 30, right: 10),
@@ -69,9 +74,13 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
                       onPressed: () {},
                     ),
                   ));
-                }else {
-                  BlocProvider.of<AddCubit>(context)
-                    .addTask(title.text, descreption.text, taskType.text);
+                } else {
+                  BlocProvider.of<AddCubit>(context).addTask(
+                    title.text,
+                    descreption.text,
+                    taskType.text,
+                    formattedDate,
+                  );
                 }
               },
               icon: Icons.save,
@@ -91,40 +100,44 @@ class _AddtaskScreenState extends State<AddtaskScreen> {
               )),
           body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Column(
-              children: [
-                TextfieldWidget(
-                    hintText: "Enter task title", controller: title),
-                const SizedBox(height: 20),
-                TextfieldWidget(
-                    hintText: "Enter task descreption",
-                    controller: descreption),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: taskType,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    hintText: 'Select task type',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    suffixIcon: PopupMenuButton<String>(
-                      icon: const Icon(Icons.arrow_drop_down),
-                      onSelected: (String value) {
-                        taskType.text = value;
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return items.map<PopupMenuItem<String>>((String value) {
-                          return PopupMenuItem(
-                              value: value, child: Text(value));
-                        }).toList();
-                      },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  TextfieldWidget(
+                      hintText: "Enter task title", controller: title),
+                  const SizedBox(height: 20),
+                  TextfieldWidget(
+                      hintText: "Enter task descreption",
+                      controller: descreption),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: taskType,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: 'Select task type',
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      suffixIcon: PopupMenuButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down),
+                        onSelected: (String value) {
+                          taskType.text = value;
+                        },
+                        itemBuilder: (BuildContext context) {
+                          return items
+                              .map<PopupMenuItem<String>>((String value) {
+                            return PopupMenuItem(
+                                value: value, child: Text(value));
+                          }).toList();
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 import 'package:reminder_app/features/calendar/domain/usecases/get_upcoming_tasks_repository.dart';
 import 'package:reminder_app/features/calendar/presentation/cubits/upcoming_task_cubit/upcoming_tasks_cubit.dart';
@@ -36,7 +35,6 @@ class _UpcommingScreenState extends State<UpcommingScreen> {
     super.initState();
   }
 
-  DateTime currentTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpComingTasksCubit, UpComingTaskStates>(
@@ -61,8 +59,6 @@ class _UpcommingScreenState extends State<UpcommingScreen> {
                             const SizedBox(height: 10),
                         itemCount: state.tasks.length,
                         itemBuilder: (context, index) {
-                          DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
-                          String formattedDate = dateFormat.format(currentTime);
                           return TaskBody(
                             yesOnPressed: () async {
                               BlocProvider.of<UpComingTasksCubit>(context)
@@ -71,7 +67,7 @@ class _UpcommingScreenState extends State<UpcommingScreen> {
                             descreption: state.tasks[index].descreption,
                             title: state.tasks[index].title,
                             taskType: state.tasks[index].taskType,
-                            date: formattedDate,
+                            date: state.tasks[index].time,
                           );
                         },
                       )

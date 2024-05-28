@@ -49,13 +49,18 @@ class TaskRepoImp extends TasksRepository {
   }
 
   @override
-  Future<void> addTask(
-      {required String title,
-      required String descreption,
-      required String taskType}) async {
+  Future<void> addTask({
+    required String title,
+    required String descreption,
+    required String taskType,
+    required String time,
+  }) async {
     try {
       dataSource.addTask(
-          title: title, descreption: descreption, taskType: taskType);
+          title: title,
+          descreption: descreption,
+          taskType: taskType,
+          time: time);
     } catch (e) {
       rethrow;
     }

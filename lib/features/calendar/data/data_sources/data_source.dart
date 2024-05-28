@@ -14,12 +14,18 @@ class FirebaseDataSource {
     return taskstype;
   }
 
-  Future<void> addTask(
-      {required String title,
-      required String descreption,
-      required String taskType}) async {
+  Future<void> addTask({
+    required String title,
+    required String descreption,
+    required String taskType,
+    required String time,
+  }) async {
     CollectionReference tasks = FirebaseFirestore.instance.collection("tasks");
-    tasks.add(
-        {'title': title, 'descreption': descreption, 'taskType': taskType});
+    tasks.add({
+      'title': title,
+      'descreption': descreption,
+      'taskType': taskType,
+      'time': time,
+    });
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import 'package:reminder_app/features/calendar/data/repository_imp/repository_imp.dart';
 
@@ -37,8 +36,6 @@ class _AlltasksScreenState extends State<AlltasksScreen> {
     super.initState();
   }
 
-  DateTime currentTime = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AllTaskCubit, AllTaskStates>(
@@ -63,9 +60,6 @@ class _AlltasksScreenState extends State<AlltasksScreen> {
                             const SizedBox(height: 10),
                         itemCount: state.tasks.length,
                         itemBuilder: (context, index) {
-                          DateFormat dateFormat = DateFormat('d MMMM, hh:mm a');
-                          String formattedDate = dateFormat.format(currentTime);
-
                           return TaskBody(
                             yesOnPressed: () {
                               BlocProvider.of<AllTaskCubit>(context)
@@ -74,7 +68,7 @@ class _AlltasksScreenState extends State<AlltasksScreen> {
                             descreption: state.tasks[index].descreption,
                             title: state.tasks[index].title,
                             taskType: state.tasks[index].taskType,
-                            date: formattedDate,
+                            date: state.tasks[index].time,
                           );
                         },
                       )

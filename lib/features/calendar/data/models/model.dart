@@ -7,6 +7,7 @@ class Task extends TaskEntity {
     required super.descreption,
     required super.taskType,
     required super.id,
+    required super.time,
   });
 
   factory Task.fromSnapshot(DocumentSnapshot map) {
@@ -15,6 +16,7 @@ class Task extends TaskEntity {
       title: map.get('title'),
       descreption: map.get('descreption'),
       taskType: map.get('taskType'),
+      time: map.get('time'),
     );
   }
 }
